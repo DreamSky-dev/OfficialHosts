@@ -1,0 +1,13 @@
+---
+description: OfficialHosts front-end design system and architecture
+globs: src/**/*
+alwaysApply: true
+---
+
+Read `AGENTS.md` before building UI.
+
+- Premium SaaS aesthetic (not generic Bootstrap chrome)
+- Gold primary CTAs (`--oh-gold`), emerald for success/savings, navy text
+- CSS Modules per component; Bootstrap grid/utilities only
+- Mock data in `src/data/mock/`; API placeholders in `src/lib/`
+- Marketing pages use `MarketingLayout`; app uses `DashboardLayout`
