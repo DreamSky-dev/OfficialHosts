@@ -74,7 +74,7 @@ export function PhilosophySection() {
   return (
     <section id="why-direct" className="bg-background">
       <div ref={sectionRef} className="relative" style={{ height: "200vh" }}>
-        <div className="sticky top-0 flex h-screen items-center justify-center">
+        <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
           <div className="relative w-full">
             <div
               className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center"
