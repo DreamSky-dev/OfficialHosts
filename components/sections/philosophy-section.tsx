@@ -1,11 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, Check, Minus } from "lucide-react";
+import { Check, Minus } from "lucide-react";
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Button } from "@/components/ui/button";
-import { ctaButtonClassName } from "@/components/sections/section-cta";
 
 const comparisonRows = [
   {
@@ -237,7 +234,7 @@ export function PhilosophySection({ embedded = false }: PhilosophySectionProps) 
                 </div>
               </div>
 
-              <div className="flex flex-col bg-foreground/5">
+              <div className="flex flex-col bg-[var(--oh-blue-light)]">
                 <div className="relative aspect-[5/3] w-full bg-muted">
                   <Image
                     src={platformComparisonImages.direct.src}
@@ -288,28 +285,6 @@ export function PhilosophySection({ embedded = false }: PhilosophySectionProps) 
               </div>
             </div>
           </div>
-
-          {!embedded && (
-            <div className="mt-12 flex flex-col gap-8 border-y border-border py-12 sm:flex-row sm:items-center sm:justify-between">
-              <div className="max-w-xl">
-                <p className="font-display text-xl leading-[1.2] tracking-tight text-foreground sm:text-2xl md:text-[1.65rem]">
-                  Create your official direct-booking vacation rental website
-                </p>
-                <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  From your existing listing in minutes, no design skills required.
-                </p>
-              </div>
-              <Button className={ctaButtonClassName} size="lg" asChild>
-                <Link href="#create">
-                  Create Vacation Rental Website
-                  <ArrowRight
-                    className="size-4 transition-transform group-hover:translate-x-0.5"
-                    aria-hidden
-                  />
-                </Link>
-              </Button>
-            </div>
-          )}
         </div>
       </div>
     </section>

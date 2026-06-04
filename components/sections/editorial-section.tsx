@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
-import { SectionCta } from "@/components/sections/section-cta";
+import { ctaButtonClassName } from "@/components/sections/section-cta";
 
 const faqItems = [
   {
@@ -134,7 +134,7 @@ export function EditorialSection({
         className={
           embedded
             ? "pb-0"
-            : "border-t border-border px-4 py-16 sm:px-6 sm:py-20 md:px-12 md:py-28 lg:px-20 lg:py-36"
+            : "border-t border-border px-4 pt-16 pb-0 sm:px-6 sm:pt-20 md:px-12 md:pt-28 lg:px-20 lg:pt-36"
         }
       >
         <div className="mx-auto max-w-6xl">
@@ -165,22 +165,22 @@ export function EditorialSection({
               {/* Results — shown first on mobile so the comparison is visible without scrolling */}
               <div className="order-1 flex flex-col bg-muted/20 lg:order-2">
                 {/* Savings highlight — pinned to top on mobile */}
-                <div className="border-b border-border bg-foreground px-4 py-5 text-background sm:px-6 sm:py-8 md:px-8 lg:border-b-0 lg:border-t">
+                <div className="border-b border-border bg-background px-4 py-5 text-[var(--oh-navy)] sm:px-6 sm:py-8 md:px-8">
                   <div className="flex items-end justify-between gap-4">
                     <div className="min-w-0">
-                      <p className="text-[0.65rem] uppercase tracking-widest text-background/70 sm:text-xs">
+                      <p className="whitespace-nowrap text-[0.65rem] uppercase tracking-widest text-[var(--oh-navy)]/70 sm:text-xs">
                         You keep with direct bookings
                       </p>
                       <p className="mt-1 text-3xl font-medium tabular-nums tracking-tight sm:mt-2 sm:text-4xl md:text-5xl">
                         {formatCurrency(savings.monthlySavings)}
-                        <span className="text-sm font-normal text-background/70 sm:text-lg">
+                        <span className="text-sm font-normal text-[var(--oh-navy)]/70 sm:text-lg">
                           {" "}
                           / mo
                         </span>
                       </p>
                     </div>
                     <div className="shrink-0 text-right">
-                      <p className="text-[0.65rem] text-background/70 sm:text-sm">
+                      <p className="text-[0.65rem] text-[var(--oh-navy)]/70 sm:text-sm">
                         Annual
                       </p>
                       <p className="mt-0.5 text-base font-medium tabular-nums sm:mt-1 sm:text-xl">
@@ -238,7 +238,7 @@ export function EditorialSection({
                   </div>
 
                   {/* OfficialHosts column */}
-                  <div className="flex flex-col border-l border-border bg-foreground/5 p-4 sm:p-6 md:p-8">
+                  <div className="flex flex-col border-l border-[var(--oh-blue)]/20 bg-[var(--oh-blue-light)] p-4 sm:p-6 md:p-8">
                     <p className="text-[0.65rem] font-medium uppercase tracking-widest text-muted-foreground sm:text-xs">
                       Direct booking
                     </p>
@@ -255,7 +255,7 @@ export function EditorialSection({
                       <li className="flex items-start justify-between gap-4">
                         <span className="flex items-center gap-1.5">
                           <Check
-                            className="size-3.5 shrink-0 text-foreground"
+                            className="size-3.5 shrink-0 text-[var(--oh-blue)]"
                             aria-hidden
                           />
                           Booking commission
@@ -265,11 +265,11 @@ export function EditorialSection({
                         </span>
                       </li>
                     </ul>
-                    <div className="mt-3 border-t border-foreground/10 pt-3 sm:mt-6 sm:pt-4">
+                    <div className="mt-3 border-t border-[var(--oh-blue)]/20 pt-3 sm:mt-6 sm:pt-4">
                       <p className="text-[0.65rem] uppercase tracking-widest text-muted-foreground sm:text-xs">
                         Net income
                       </p>
-                      <p className="mt-0.5 text-xl font-medium tabular-nums tracking-tight text-foreground sm:mt-1 sm:text-2xl">
+                      <p className="mt-0.5 text-xl font-medium tabular-nums tracking-tight text-[var(--oh-navy)] sm:mt-1 sm:text-2xl">
                         {formatCurrency(savings.monthlyRevenue)}
                       </p>
                       <p className="mt-0.5 text-[0.65rem] text-muted-foreground sm:mt-1 sm:text-xs">
@@ -292,7 +292,7 @@ export function EditorialSection({
                 <div className="flex items-center justify-between gap-4">
                   <label
                     htmlFor="nightly-rate"
-                    className="shrink-0 text-sm font-medium text-foreground"
+                    className="shrink-0 text-sm font-medium text-[var(--oh-navy)]"
                   >
                     Nightly rate
                   </label>
@@ -320,10 +320,10 @@ export function EditorialSection({
 
                 <div className="space-y-3 sm:space-y-4">
                   <div className="flex items-baseline justify-between gap-4">
-                    <label className="text-sm font-medium text-foreground">
+                    <label className="text-sm font-medium text-[var(--oh-navy)]">
                       Nights booked per month
                     </label>
-                    <span className="rounded-md bg-muted px-2 py-0.5 tabular-nums text-sm font-semibold text-foreground">
+                    <span className="rounded-md bg-[var(--oh-blue-light)] px-2 py-0.5 tabular-nums text-sm font-semibold text-[var(--oh-navy)]">
                       {nightsPerMonth}
                     </span>
                   </div>
@@ -334,16 +334,16 @@ export function EditorialSection({
                     value={[nightsPerMonth]}
                     onValueChange={([v]) => setNightsPerMonth(v)}
                     aria-label="Nights booked per month"
-                    className="py-2 [&_[data-slot=slider-thumb]]:size-5 sm:py-0 sm:[&_[data-slot=slider-thumb]]:size-4"
+                    className="py-2 [&_[data-slot=slider-range]]:bg-[var(--oh-blue)] [&_[data-slot=slider-thumb]]:size-5 [&_[data-slot=slider-thumb]]:border-[var(--oh-blue)] sm:py-0 sm:[&_[data-slot=slider-thumb]]:size-4"
                   />
                 </div>
 
                 <div className="space-y-3 sm:space-y-4">
                   <div className="flex items-baseline justify-between gap-4">
-                    <label className="text-sm font-medium text-foreground">
+                    <label className="text-sm font-medium text-[var(--oh-navy)]">
                       Platform service fee
                     </label>
-                    <span className="rounded-md bg-muted px-2 py-0.5 tabular-nums text-sm font-semibold text-foreground">
+                    <span className="rounded-md bg-[var(--oh-blue-light)] px-2 py-0.5 tabular-nums text-sm font-semibold text-[var(--oh-navy)]">
                       {platformFeePercent}%
                     </span>
                   </div>
@@ -355,7 +355,7 @@ export function EditorialSection({
                     onValueChange={([v]) => setFeeIndex(v)}
                     aria-label="Platform service fee percentage"
                     aria-valuetext={`${platformFeePercent}%`}
-                    className="py-2 [&_[data-slot=slider-thumb]]:size-5 sm:py-0 sm:[&_[data-slot=slider-thumb]]:size-4"
+                    className="py-2 [&_[data-slot=slider-range]]:bg-[var(--oh-blue)] [&_[data-slot=slider-thumb]]:size-5 [&_[data-slot=slider-thumb]]:border-[var(--oh-blue)] sm:py-0 sm:[&_[data-slot=slider-thumb]]:size-4"
                   />
                   <p className="hidden text-xs leading-relaxed text-muted-foreground sm:block">
                     Typical OTA host fees range from 3%–25% depending on
@@ -367,6 +367,30 @@ export function EditorialSection({
           </div>
         </div>
       </div>
+      )}
+
+      {!embedded && showSavings && (
+        <div className="my-12">
+          <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-12 sm:flex-row sm:items-center sm:justify-between sm:px-6 md:px-12 lg:px-20">
+            <div className="max-w-xl">
+              <p className="font-display text-xl leading-[1.2] tracking-tight text-foreground sm:text-2xl md:text-[1.65rem]">
+                Create your official direct-booking vacation rental website
+              </p>
+              <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                From your existing listing in minutes, no design skills required.
+              </p>
+            </div>
+            <Button className={ctaButtonClassName} size="lg" asChild>
+              <Link href="#create">
+                Create Vacation Rental Website
+                <ArrowRight
+                  className="size-4 transition-transform group-hover:translate-x-0.5"
+                  aria-hidden
+                />
+              </Link>
+            </Button>
+          </div>
+        </div>
       )}
 
       {part === "full" && (
@@ -430,7 +454,7 @@ export function EditorialSection({
               </ul>
 
               <div className="mt-8 hidden flex-col gap-3 lg:flex">
-                <Button size="lg" className="h-12 rounded-full px-8" asChild>
+                <Button size="lg" className={ctaButtonClassName} asChild>
                   <Link href="#create">
                     Start building your site
                     <ArrowRight className="size-4" aria-hidden />
@@ -449,6 +473,7 @@ export function EditorialSection({
             )}
 
             {embedded && (
+              <>
               <ul className="space-y-3 rounded-2xl border border-border bg-muted/20 p-5 lg:col-span-2">
                 {faqHighlights.map((highlight) => (
                   <li
@@ -463,6 +488,23 @@ export function EditorialSection({
                   </li>
                 ))}
               </ul>
+              <div className="flex flex-col gap-3 lg:col-span-2">
+                <Button size="lg" className={ctaButtonClassName} asChild>
+                  <Link href="#create">
+                    Start building your site
+                    <ArrowRight className="size-4" aria-hidden />
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="h-12 rounded-full"
+                  asChild
+                >
+                  <Link href="#pricing">Compare plans</Link>
+                </Button>
+              </div>
+              </>
             )}
 
             <Accordion
@@ -477,6 +519,7 @@ export function EditorialSection({
                 <AccordionItem
                   key={item.question}
                   value={`item-${index}`}
+                  unstyled
                   className={cn(
                     "overflow-hidden rounded-2xl border border-border bg-background px-5 md:px-6",
                     "border-b border-border transition-[border-color,box-shadow] duration-200",
@@ -512,11 +555,6 @@ export function EditorialSection({
                   <AccordionContent className="text-[15px] leading-relaxed text-muted-foreground">
                     <div className="border-t border-border pt-4 pb-5 md:pb-6">
                       {item.answer}
-                      <SectionCta
-                        variant="compact"
-                        label="Start building your site"
-                        href="#create"
-                      />
                     </div>
                   </AccordionContent>
                 </AccordionItem>
@@ -526,7 +564,7 @@ export function EditorialSection({
 
           {!embedded && (
           <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:hidden">
-            <Button size="lg" className="h-12 rounded-full" asChild>
+            <Button size="lg" className={ctaButtonClassName} asChild>
               <Link href="#create">
                 Start building your site
                 <ArrowRight className="size-4" aria-hidden />

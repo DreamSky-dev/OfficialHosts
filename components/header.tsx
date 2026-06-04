@@ -38,14 +38,14 @@ export function Header() {
           : "none",
       }}
     >
-      <div className="flex items-center justify-between gap-4 px-3 py-3 pl-4 transition-all duration-300 md:gap-3 md:px-2 md:py-2 md:pl-3 lg:pl-4">
+      <div className="flex items-center justify-between gap-3 px-2 py-2 pl-3 transition-all duration-300 sm:pl-4">
         <Link href="/" className="relative flex shrink-0 items-center">
           <Image
             src={isScrolled ? "/logo_dark.png" : "/logo.png"}
             alt={BRAND_ALT}
             width={isScrolled ? 592 : 411}
             height={isScrolled ? 134 : 125}
-            className="h-10 w-auto sm:h-12 md:h-10"
+            className="h-7 w-auto sm:h-9 md:h-10"
             priority
           />
         </Link>
@@ -71,7 +71,7 @@ export function Header() {
           </Link>
           <Link
             href="#create"
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${isScrolled ? "bg-foreground text-background hover:opacity-80" : "bg-white text-foreground hover:bg-white/90"}`}
+            className="rounded-full bg-[var(--oh-blue)] px-4 py-2 text-sm font-medium text-white transition-all hover:bg-[var(--oh-blue-hover)]"
           >
             Get Started
           </Link>

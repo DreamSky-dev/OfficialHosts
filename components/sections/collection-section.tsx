@@ -87,10 +87,13 @@ function showPerMonth(plan: Plan) {
 function PlanCard({
   plan,
   billing,
+  embedded = false,
 }: {
   plan: Plan;
   billing: Billing;
+  embedded?: boolean;
 }) {
+  const [showAllFeatures, setShowAllFeatures] = useState(false);
   const price = displayPrice(plan, billing);
   const isPro = plan.name === "Pro";
   const showSavings =
@@ -99,13 +102,18 @@ function PlanCard({
     "yearlyAmount" in plan &&
     plan.yearlyAmount != null;
 
+  const visibleFeatures =
+    embedded && !showAllFeatures ? plan.features.slice(0, 4) : plan.features;
+  const hiddenFeatureCount = plan.features.length - visibleFeatures.length;
+
   return (
     <article
       className={cn(
-        "group relative flex flex-col rounded-2xl border p-6 transition-all duration-300 md:p-8",
+        "group relative flex flex-col rounded-2xl border transition-all duration-300",
+        embedded ? "p-4" : "p-6 md:p-8",
         plan.highlighted
-          ? "z-10 border-foreground bg-foreground text-background shadow-xl md:-mt-4 md:mb-4 md:scale-[1.02]"
-          : "border-border bg-card hover:border-foreground/20 hover:shadow-md",
+          ? "z-10 border-[var(--oh-blue)] bg-[var(--oh-blue-light)] text-[var(--oh-navy)] shadow-[0_8px_28px_rgba(50,174,168,0.2)] md:-mt-4 md:mb-4 md:scale-[1.02]"
+          : "border-border bg-card hover:border-[var(--oh-blue)]/30 hover:shadow-md",
       )}
     >
       {plan.badge && (
@@ -113,8 +121,8 @@ function PlanCard({
           className={cn(
             "absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-xs font-medium uppercase tracking-widest",
             plan.highlighted
-              ? "bg-background text-foreground"
-              : "bg-foreground text-background",
+              ? "bg-[var(--oh-blue)] text-white"
+              : "bg-[var(--oh-blue-light)] text-[var(--oh-navy)]",
           )}
         >
           {plan.badge}
@@ -126,7 +134,7 @@ function PlanCard({
           <h3
             className={cn(
               "text-xl font-semibold tracking-tight",
-              plan.highlighted ? "text-background" : "text-foreground",
+              "text-[var(--oh-navy)]",
             )}
           >
             {plan.name}
@@ -134,7 +142,7 @@ function PlanCard({
           <p
             className={cn(
               "mt-2 text-sm leading-relaxed",
-              plan.highlighted ? "text-background/70" : "text-muted-foreground",
+              plan.highlighted ? "text-[var(--oh-navy)]/70" : "text-muted-foreground",
             )}
           >
             {plan.description}
@@ -144,8 +152,9 @@ function PlanCard({
 
       <div
         className={cn(
-          "mt-8 border-t pt-8",
-          plan.highlighted ? "border-background/20" : "border-border",
+          "border-t",
+          embedded ? "mt-5 pt-5" : "mt-8 pt-8",
+          plan.highlighted ? "border-[var(--oh-blue)]/25" : "border-border",
         )}
       >
         <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
@@ -154,7 +163,7 @@ function PlanCard({
               className={cn(
                 "text-lg font-normal line-through",
                 plan.highlighted
-                  ? "text-background/50"
+                  ? "text-[var(--oh-navy)]/50"
                   : "text-muted-foreground",
               )}
             >
@@ -163,8 +172,9 @@ function PlanCard({
           )}
           <p
             className={cn(
-              "text-4xl font-medium tracking-tight md:text-[2.75rem]",
-              plan.highlighted ? "text-background" : "text-foreground",
+              "font-medium tracking-tight",
+              embedded ? "text-3xl" : "text-4xl md:text-[2.75rem]",
+              "text-[var(--oh-navy)]",
             )}
           >
             {price}
@@ -173,7 +183,7 @@ function PlanCard({
                 className={cn(
                   "ml-1 text-base font-normal",
                   plan.highlighted
-                    ? "text-background/60"
+                    ? "text-[var(--oh-navy)]/60"
                     : "text-muted-foreground",
                 )}
               >
@@ -185,7 +195,7 @@ function PlanCard({
         <p
           className={cn(
             "mt-2 text-sm",
-            plan.highlighted ? "text-background/60" : "text-muted-foreground",
+            plan.highlighted ? "text-[var(--oh-navy)]/60" : "text-muted-foreground",
           )}
         >
           {billing === "yearly" && isPro
@@ -193,21 +203,21 @@ function PlanCard({
             : plan.priceNote}
         </p>
         {showSavings && (
-          <span className="mt-3 inline-flex rounded-full bg-background/15 px-3 py-1 text-xs font-medium text-background">
+          <span className="mt-3 inline-flex rounded-full bg-[var(--oh-blue)]/15 px-3 py-1 text-xs font-medium text-[var(--oh-blue)]">
             Save 17% with annual billing
           </span>
         )}
       </div>
 
-      <ul className="mt-8 flex-1 space-y-3.5">
-        {plan.features.map((feature) => (
+      <ul className={cn("flex-1", embedded ? "mt-5 space-y-2.5" : "mt-8 space-y-3.5")}>
+        {visibleFeatures.map((feature) => (
           <li key={feature} className="flex items-start gap-3 text-sm">
             <span
               className={cn(
                 "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full",
                 plan.highlighted
-                  ? "bg-background/15 text-background"
-                  : "bg-muted text-foreground",
+                  ? "bg-[var(--oh-blue)]/15 text-[var(--oh-blue)]"
+                  : "bg-muted text-[var(--oh-navy)]",
               )}
             >
               <Check className="size-3" strokeWidth={2.5} aria-hidden />
@@ -215,7 +225,7 @@ function PlanCard({
             <span
               className={cn(
                 "leading-snug",
-                plan.highlighted ? "text-background/85" : "text-muted-foreground",
+                plan.highlighted ? "text-[var(--oh-navy)]/85" : "text-muted-foreground",
               )}
             >
               {feature}
@@ -224,23 +234,38 @@ function PlanCard({
         ))}
       </ul>
 
-      <Button
-        className={cn(
-          "mt-8 h-11 w-full rounded-full text-sm font-medium",
-          plan.highlighted &&
-            "bg-background text-foreground hover:bg-background/90",
-        )}
-        variant={plan.highlighted ? "secondary" : "outline"}
-        asChild
-      >
-        <Link href="/signup" className="group/btn">
-          {plan.cta}
-          <ArrowRight
-            className="size-4 transition-transform group-hover/btn:translate-x-0.5"
-            aria-hidden
-          />
-        </Link>
-      </Button>
+      {embedded && !showAllFeatures && hiddenFeatureCount > 0 && (
+        <button
+          type="button"
+          onClick={() => setShowAllFeatures(true)}
+          className={cn(
+            "mt-3 text-left text-sm font-medium underline-offset-4 hover:underline",
+            plan.highlighted ? "text-[var(--oh-navy)]/80" : "text-[var(--oh-navy)]",
+          )}
+        >
+          +{hiddenFeatureCount} more features
+        </button>
+      )}
+
+      {!embedded && (
+        <Button
+          className={cn(
+            "mt-8 h-11 w-full rounded-full text-sm font-medium",
+            plan.highlighted &&
+              "bg-[var(--oh-blue)] text-white hover:bg-[var(--oh-blue-hover)]",
+          )}
+          variant={plan.highlighted ? "secondary" : "outline"}
+          asChild
+        >
+          <Link href="/signup" className="group/btn">
+            {plan.cta}
+            <ArrowRight
+              className="size-4 transition-transform group-hover/btn:translate-x-0.5"
+              aria-hidden
+            />
+          </Link>
+        </Button>
+      )}
     </article>
   );
 }
@@ -280,8 +305,8 @@ export function CollectionSection({ embedded = false }: CollectionSectionProps) 
               className={cn(
                 "rounded-full px-6 py-2.5 text-sm font-medium transition-all",
                 billing === "monthly"
-                  ? "bg-foreground text-background shadow-sm"
-                  : "text-muted-foreground hover:text-foreground",
+                  ? "bg-[var(--oh-blue)] text-white shadow-sm"
+                  : "text-muted-foreground hover:text-[var(--oh-navy)]",
               )}
             >
               Monthly
@@ -293,8 +318,8 @@ export function CollectionSection({ embedded = false }: CollectionSectionProps) 
               className={cn(
                 "flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium transition-all",
                 billing === "yearly"
-                  ? "bg-foreground text-background shadow-sm"
-                  : "text-muted-foreground hover:text-foreground",
+                  ? "bg-[var(--oh-blue)] text-white shadow-sm"
+                  : "text-muted-foreground hover:text-[var(--oh-navy)]",
               )}
             >
               Yearly
@@ -302,8 +327,8 @@ export function CollectionSection({ embedded = false }: CollectionSectionProps) 
                 className={cn(
                   "rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide",
                   billing === "yearly"
-                    ? "bg-background/20 text-background"
-                    : "bg-foreground/10 text-foreground",
+                    ? "bg-white/25 text-white"
+                    : "bg-[var(--oh-blue)]/12 text-[var(--oh-blue)]",
                 )}
               >
                 Save 17%
@@ -318,7 +343,7 @@ export function CollectionSection({ embedded = false }: CollectionSectionProps) 
       )}
 
       {embedded && (
-        <div className="mb-6 flex flex-col items-center gap-3">
+        <div className="mb-5 flex justify-center">
           <div
             className="inline-flex items-center rounded-full border border-border bg-muted/40 p-1"
             role="group"
@@ -331,8 +356,8 @@ export function CollectionSection({ embedded = false }: CollectionSectionProps) 
               className={cn(
                 "rounded-full px-5 py-2 text-sm font-medium transition-all",
                 billing === "monthly"
-                  ? "bg-foreground text-background shadow-sm"
-                  : "text-muted-foreground hover:text-foreground",
+                  ? "bg-[var(--oh-blue)] text-white shadow-sm"
+                  : "text-muted-foreground hover:text-[var(--oh-navy)]",
               )}
             >
               Monthly
@@ -344,8 +369,8 @@ export function CollectionSection({ embedded = false }: CollectionSectionProps) 
               className={cn(
                 "flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-all",
                 billing === "yearly"
-                  ? "bg-foreground text-background shadow-sm"
-                  : "text-muted-foreground hover:text-foreground",
+                  ? "bg-[var(--oh-blue)] text-white shadow-sm"
+                  : "text-muted-foreground hover:text-[var(--oh-navy)]",
               )}
             >
               Yearly
@@ -353,8 +378,8 @@ export function CollectionSection({ embedded = false }: CollectionSectionProps) 
                 className={cn(
                   "rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide",
                   billing === "yearly"
-                    ? "bg-background/20 text-background"
-                    : "bg-foreground/10 text-foreground",
+                    ? "bg-white/25 text-white"
+                    : "bg-[var(--oh-blue)]/12 text-[var(--oh-blue)]",
                 )}
               >
                 Save 17%
@@ -371,9 +396,20 @@ export function CollectionSection({ embedded = false }: CollectionSectionProps) 
             : "mx-auto max-w-6xl px-6 pb-16 md:px-12 lg:px-20"
         }
       >
-        <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-3 md:gap-5 lg:gap-6">
+        <div
+          className={
+            embedded
+              ? "flex flex-col gap-4"
+              : "grid grid-cols-1 items-stretch gap-6 md:grid-cols-3 md:gap-5 lg:gap-6"
+          }
+        >
           {plans.map((plan) => (
-            <PlanCard key={plan.name} plan={plan} billing={billing} />
+            <PlanCard
+              key={plan.name}
+              plan={plan}
+              billing={billing}
+              embedded={embedded}
+            />
           ))}
         </div>
       </div>

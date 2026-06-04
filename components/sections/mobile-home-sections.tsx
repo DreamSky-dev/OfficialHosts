@@ -73,13 +73,11 @@ const SECTION_CTAS: Partial<
     }
   >
 > = {
-  "why-direct": {
+  savings: {
     label: "Create Vacation Rental Website",
     href: "#create",
-  },
-  savings: {
-    label: "Start keeping more of every booking",
-    href: "#create",
+    description:
+      "From your existing listing in minutes, no design skills required.",
   },
   "how-it-works": {
     label: "Launch your site in minutes",

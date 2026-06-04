@@ -91,8 +91,8 @@ function TestimonialCard({
           : "rounded-xl p-4 md:rounded-2xl md:p-8"
       } ${
         item.featured
-          ? "border-foreground/20 bg-foreground/5 shadow-sm"
-          : "border-border hover:border-foreground/15 hover:bg-muted/30"
+          ? "border-[var(--oh-blue)]/25 bg-[var(--oh-blue-light)] shadow-sm"
+          : "border-border hover:border-[var(--oh-blue)]/20 hover:bg-muted/30"
       } ${className}`}
     >
       <div
@@ -125,7 +125,7 @@ function TestimonialCard({
         }`}
       >
         <div
-          className={`flex shrink-0 items-center justify-center rounded-full bg-foreground font-medium text-background ${
+          className={`flex shrink-0 items-center justify-center rounded-full bg-[var(--oh-blue)] font-medium text-white ${
             compact ? "size-7 text-[10px]" : "size-9 text-xs md:size-11 md:text-sm"
           }`}
         >
