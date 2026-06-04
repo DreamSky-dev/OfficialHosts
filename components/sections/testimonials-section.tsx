@@ -89,7 +89,11 @@ function TestimonialCard({
         compact
           ? "rounded-lg p-3"
           : "rounded-xl p-4 md:rounded-2xl md:p-8"
-      } border-border hover:border-[var(--oh-blue)]/20 hover:bg-muted/30 ${className}`}
+      } ${
+        item.featured
+          ? "border-[var(--oh-blue)] bg-[var(--oh-blue-light)] shadow-[0_4px_20px_rgba(50,174,168,0.12)] hover:border-[var(--oh-blue)]"
+          : "border-border bg-background hover:border-[var(--oh-blue)]/20 hover:bg-muted/30"
+      } ${className}`}
     >
       <div
         className={`flex items-start justify-between ${

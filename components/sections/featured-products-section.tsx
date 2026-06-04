@@ -44,7 +44,7 @@ const features = [
     descriptionShort:
       "Stripe and PayPal checkout—guests stay on your site start to finish.",
     image:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1200",
+      "/images/feature-4.webp",
     tag: "Payments",
   },
   {
@@ -55,7 +55,7 @@ const features = [
     descriptionShort:
       "Manage every listing and toggle site visibility from one dashboard.",
     image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200",
+      "/images/feature-5.webp",
     tag: "Dashboard",
   },
   {

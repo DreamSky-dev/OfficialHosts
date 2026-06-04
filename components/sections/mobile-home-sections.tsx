@@ -73,6 +73,12 @@ const SECTION_CTAS: Partial<
     }
   >
 > = {
+  "why-direct": {
+    label: "Keep your guests, go direct",
+    href: "#create",
+    description:
+      "Your official site is where repeat guests book you again—on your brand, not the platform's.",
+  },
   savings: {
     label: "Create Vacation Rental Website",
     href: "#create",
