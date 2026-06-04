@@ -225,19 +225,33 @@ export function HeroSection() {
             <p className="mt-6 max-w-lg text-sm leading-relaxed text-white/70 md:text-[15px]">
               {listingMode === "paste" ? (
                 <>
-                  Paste your Airbnb, Vrbo, or Booking.com listing URL. We help
-                  you build a direct-booking site for{" "}
-                  <span className="font-medium text-white">
-                    single-property owners and OTA hosts
+                  <span className="md:hidden">
+                    Paste your Airbnb, Vrbo, or Booking.com URL. We&apos;ll
+                    build your direct-booking site.
                   </span>
-                  , no marketplace required.
+                  <span className="hidden md:inline">
+                    Paste your Airbnb, Vrbo, or Booking.com listing URL. We
+                    help you build a direct-booking site for{" "}
+                    <span className="font-medium text-white">
+                      single-property owners and OTA hosts
+                    </span>
+                    , no marketplace required.
+                  </span>
                 </>
               ) : (
                 <>
-                  Start from scratch with AI-assisted content generation, no
-                  existing listing required.{" "}
-                  <span className="font-medium text-white">
-                    Build your vacation rental website in minutes.
+                  <span className="md:hidden">
+                    Start fresh with AI—no listing needed.{" "}
+                    <span className="font-medium text-white">
+                      Build your site in minutes.
+                    </span>
+                  </span>
+                  <span className="hidden md:inline">
+                    Start from scratch with AI-assisted content generation, no
+                    existing listing required.{" "}
+                    <span className="font-medium text-white">
+                      Build your vacation rental website in minutes.
+                    </span>
                   </span>
                 </>
               )}

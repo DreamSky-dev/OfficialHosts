@@ -56,13 +56,17 @@ const testimonials = [
   },
 ];
 
-function StarRating() {
+function StarRating({ compact = false }: { compact?: boolean }) {
   return (
     <div className="flex gap-0.5" aria-label="5 out of 5 stars">
       {Array.from({ length: 5 }).map((_, i) => (
         <Star
           key={i}
-          className="size-3 fill-foreground text-foreground md:size-3.5"
+          className={
+            compact
+              ? "size-2.5 fill-foreground text-foreground"
+              : "size-3 fill-foreground text-foreground md:size-3.5"
+          }
           aria-hidden
         />
       ))}
@@ -73,37 +77,73 @@ function StarRating() {
 function TestimonialCard({
   item,
   className = "",
+  compact = false,
 }: {
   item: (typeof testimonials)[number];
   className?: string;
+  compact?: boolean;
 }) {
   return (
     <article
-      className={`group flex flex-col rounded-xl border p-4 transition-colors md:rounded-2xl md:p-8 ${
+      className={`group flex flex-col border transition-colors ${
+        compact
+          ? "rounded-lg p-3"
+          : "rounded-xl p-4 md:rounded-2xl md:p-8"
+      } ${
         item.featured
           ? "border-foreground/20 bg-foreground/5 shadow-sm"
           : "border-border hover:border-foreground/15 hover:bg-muted/30"
       } ${className}`}
     >
-      <div className="flex items-start justify-between gap-3 md:gap-4">
+      <div
+        className={`flex items-start justify-between ${
+          compact ? "gap-2" : "gap-3 md:gap-4"
+        }`}
+      >
         <Quote
-          className="size-6 shrink-0 text-foreground/15 transition-colors group-hover:text-foreground/25 md:size-8"
+          className={`shrink-0 text-foreground/15 transition-colors group-hover:text-foreground/25 ${
+            compact ? "size-5" : "size-6 md:size-8"
+          }`}
           aria-hidden
         />
-        <StarRating />
+        <StarRating compact={compact} />
       </div>
-      <blockquote className="mt-3 flex-1 text-sm leading-snug text-foreground md:mt-4 md:text-base md:leading-relaxed">
+      <blockquote
+        className={`flex-1 text-foreground ${
+          compact
+            ? "mt-2 text-xs leading-snug"
+            : "mt-3 text-sm leading-snug md:mt-4 md:text-base md:leading-relaxed"
+        }`}
+      >
         &ldquo;{item.quote}&rdquo;
       </blockquote>
-      <footer className="mt-4 flex items-center gap-3 border-t border-border pt-4 md:mt-8 md:gap-4 md:pt-6">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background md:size-11 md:text-sm">
+      <footer
+        className={`flex items-center border-t border-border ${
+          compact
+            ? "mt-3 gap-2 pt-3"
+            : "mt-4 gap-3 pt-4 md:mt-8 md:gap-4 md:pt-6"
+        }`}
+      >
+        <div
+          className={`flex shrink-0 items-center justify-center rounded-full bg-foreground font-medium text-background ${
+            compact ? "size-7 text-[10px]" : "size-9 text-xs md:size-11 md:text-sm"
+          }`}
+        >
           {item.initials}
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-medium text-foreground md:text-base">
+          <p
+            className={`font-medium text-foreground ${
+              compact ? "text-xs" : "text-sm md:text-base"
+            }`}
+          >
             {item.name}
           </p>
-          <p className="truncate text-xs text-muted-foreground md:text-sm">
+          <p
+            className={`truncate text-muted-foreground ${
+              compact ? "text-[10px]" : "text-xs md:text-sm"
+            }`}
+          >
             {item.property}
           </p>
         </div>
@@ -144,13 +184,13 @@ export function TestimonialsSection({
           launches, lower fees, and better guest relationships.
         </p>
 
-        <div className="mx-auto mt-8 grid max-w-sm grid-cols-3 gap-4 md:hidden">
+        <div className="mx-auto mt-8 grid w-full max-w-md grid-cols-3 gap-4 md:hidden">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
-              <p className="text-2xl font-medium tabular-nums tracking-tight text-foreground">
+              <p className="text-4xl font-semibold tabular-nums tracking-tight text-foreground">
                 {stat.value}
               </p>
-              <p className="mt-1 text-xs leading-snug text-muted-foreground">
+              <p className="mt-1 text-sm leading-snug text-muted-foreground">
                 {stat.shortLabel}
               </p>
             </div>
@@ -179,13 +219,13 @@ export function TestimonialsSection({
         }
       >
         {embedded && (
-          <div className="mb-4 grid max-w-sm grid-cols-3 gap-3">
+          <div className="mb-5 grid w-full grid-cols-3 gap-4">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
-                <p className="text-xl font-medium tabular-nums tracking-tight text-foreground">
+                <p className="text-4xl font-semibold tabular-nums tracking-tight text-foreground">
                   {stat.value}
                 </p>
-                <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground">
+                <p className="mt-1 text-sm leading-snug text-muted-foreground">
                   {stat.shortLabel}
                 </p>
               </div>
@@ -194,9 +234,17 @@ export function TestimonialsSection({
         )}
 
         {/* Mobile: top 3 reviews */}
-        <div className="grid grid-cols-1 gap-3 md:hidden">
+        <div
+          className={`grid grid-cols-1 md:hidden ${
+            embedded ? "gap-2" : "gap-3"
+          }`}
+        >
           {mobileTestimonials.map((item) => (
-            <TestimonialCard key={item.name} item={item} />
+            <TestimonialCard
+              key={item.name}
+              item={item}
+              compact={embedded}
+            />
           ))}
         </div>
 

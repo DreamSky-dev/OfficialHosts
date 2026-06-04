@@ -1,12 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { Minus, Plus } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 import { PhilosophySection } from "@/components/sections/philosophy-section";
 import { EditorialSection } from "@/components/sections/editorial-section";
 import { TechnologySection } from "@/components/sections/technology-section";
@@ -176,16 +178,12 @@ export function MobileHomeSections() {
 
   return (
     <div className="md:hidden">
-      <div className="border-t border-border px-6 py-10">
-        <p className="text-xs uppercase tracking-widest text-muted-foreground">
-          Explore OfficialHosts
-        </p>
-        <h2 className="mt-3 text-2xl font-medium tracking-tight text-foreground">
-          Tap a section to dive in
+      <div className="border-t border-border bg-muted/30 px-6 py-12 text-center">
+        <h2 className="font-display text-[1.75rem] font-medium leading-[1.15] tracking-tight text-[var(--oh-navy)] sm:text-[2rem]">
+          Everything you need to grow direct bookings
         </h2>
-        <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
-          Keep all the details, open one topic at a time and jump straight to
-          what matters.
+        <p className="mx-auto mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
+          Explore each section below to see how OfficialHosts helps you succeed.
         </p>
       </div>
 
@@ -202,26 +200,51 @@ export function MobileHomeSections() {
             setOpenSection(undefined);
           }
         }}
-        className="border-t border-border"
+        className="flex flex-col gap-4 border-t border-border bg-muted/30 px-4 pb-10 pt-5"
       >
         {MOBILE_SECTIONS.map((section) => (
           <AccordionItem
             key={section.id}
             value={section.id}
             id={`mobile-section-${section.id}`}
-            className="scroll-mt-24 border-b border-border px-6 last:border-b-0"
+            unstyled
+            className={cn(
+              "scroll-mt-24 overflow-hidden rounded-xl border border-border/80 bg-[#F4F6F8]",
+              "transition-[border-color,box-shadow,background-color] duration-200",
+              "data-[state=open]:border-[color-mix(in_srgb,var(--oh-navy)_18%,transparent)]",
+              "data-[state=open]:bg-background data-[state=open]:shadow-md",
+            )}
           >
-            <AccordionTrigger className="items-center py-5 hover:no-underline">
-              <div className="flex flex-1 flex-col items-start gap-1.5 pr-2 text-left">
-                <span className="text-xs uppercase tracking-widest text-muted-foreground">
+            <AccordionTrigger
+              hideChevron
+              className={cn(
+                "group min-h-[4.5rem] items-center gap-4 rounded-none px-4 py-5 hover:no-underline",
+                "bg-[#ECEFF3] data-[state=open]:bg-[#F4F6F8]",
+              )}
+            >
+              <div className="flex min-w-0 flex-1 flex-col items-start gap-1 text-left">
+                <span className="text-xl font-semibold leading-snug tracking-tight text-[var(--oh-navy)]">
                   {section.label}
                 </span>
-                <span className="text-base font-medium leading-snug text-foreground">
+                <span className="text-sm leading-relaxed text-muted-foreground">
                   {section.title}
                 </span>
               </div>
+              <span
+                className="flex size-14 shrink-0 items-center justify-center rounded-full border-2 border-[color-mix(in_srgb,var(--oh-navy)_12%,transparent)] bg-background text-[var(--oh-navy)] shadow-sm"
+                aria-hidden
+              >
+                <Plus
+                  className="size-6 stroke-[2.5] group-data-[state=open]:hidden"
+                  strokeWidth={2.5}
+                />
+                <Minus
+                  className="hidden size-6 stroke-[2.5] group-data-[state=open]:block"
+                  strokeWidth={2.5}
+                />
+              </span>
             </AccordionTrigger>
-            <AccordionContent className="pb-8 pt-1">
+            <AccordionContent className="border-t border-border bg-background px-4 pb-8 pt-5">
               {renderSectionContent(section.id)}
               {SECTION_CTAS[section.id] && (
                 <SectionCta
