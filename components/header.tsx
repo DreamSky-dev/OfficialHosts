@@ -38,14 +38,14 @@ export function Header() {
           : "none",
       }}
     >
-      <div className="flex items-center justify-between gap-4 px-3 py-3 pl-4 transition-all duration-300 sm:gap-5 sm:px-4 sm:py-3.5 sm:pl-5 md:py-4">
+      <div className="flex items-center justify-between gap-4 px-3 py-3 pl-4 transition-all duration-300 md:gap-3 md:px-2 md:py-2 md:pl-3 lg:pl-4">
         <Link href="/" className="relative flex shrink-0 items-center">
           <Image
             src={isScrolled ? "/logo_dark.png" : "/logo.png"}
             alt={BRAND_ALT}
             width={isScrolled ? 592 : 411}
             height={isScrolled ? 134 : 125}
-            className="h-10 w-auto sm:h-12 md:h-14 lg:h-16"
+            className="h-10 w-auto sm:h-12 md:h-10"
             priority
           />
         </Link>
@@ -55,23 +55,23 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-base transition-colors ${isScrolled ? "text-muted-foreground hover:text-foreground" : "text-white/70 hover:text-white"}`}
+              className={`text-sm transition-colors ${isScrolled ? "text-muted-foreground hover:text-foreground" : "text-white/70 hover:text-white"}`}
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-5 md:flex">
+        <div className="hidden items-center gap-4 md:flex">
           <Link
             href="#login"
-            className={`text-base transition-colors ${isScrolled ? "text-muted-foreground hover:text-foreground" : "text-white/70 hover:text-white"}`}
+            className={`text-sm transition-colors ${isScrolled ? "text-muted-foreground hover:text-foreground" : "text-white/70 hover:text-white"}`}
           >
             Login
           </Link>
           <Link
             href="#create"
-            className={`rounded-full px-5 py-2.5 text-base font-medium transition-all ${isScrolled ? "bg-foreground text-background hover:opacity-80" : "bg-white text-foreground hover:bg-white/90"}`}
+            className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${isScrolled ? "bg-foreground text-background hover:opacity-80" : "bg-white text-foreground hover:bg-white/90"}`}
           >
             Get Started
           </Link>

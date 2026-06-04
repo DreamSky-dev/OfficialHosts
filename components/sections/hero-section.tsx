@@ -241,7 +241,7 @@ export function HeroSection() {
               ) : (
                 <>
                   <span className="md:hidden">
-                    Start fresh with AI—no listing needed.{" "}
+                    Start fresh with AI, no listing needed.{" "}
                     <span className="font-medium text-white">
                       Build your site in minutes.
                     </span>
