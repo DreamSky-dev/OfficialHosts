@@ -1,13 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowRight, Quote, Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Quote, Star } from "lucide-react";
 
 const stats = [
-  { value: "4.9", label: "Average host rating" },
-  { value: "500+", label: "Properties launched" },
-  { value: "98%", label: "Would recommend" },
+  { value: "4.9", label: "Average host rating", shortLabel: "Avg. rating" },
+  { value: "500+", label: "Properties launched", shortLabel: "Launched" },
+  { value: "98%", label: "Would recommend", shortLabel: "Recommend" },
 ] as const;
 
 const testimonials = [
@@ -28,6 +26,7 @@ const testimonials = [
     property: "Downtown Loft · Austin, TX",
     badge: "Direct Bookings",
     featured: false,
+    showOnMobile: true,
   },
   {
     quote:
@@ -56,13 +55,6 @@ const testimonials = [
     badge: "Custom Domain",
     featured: false,
   },
-];
-
-const press = [
-  "Vacation Rental Weekly",
-  "Host Success Podcast",
-  "Direct Booking Co.",
-  "Coastal Host Magazine",
 ];
 
 function StarRating() {
@@ -128,6 +120,9 @@ function TestimonialCard({
 export function TestimonialsSection() {
   const featured = testimonials.find((t) => t.featured)!;
   const rest = testimonials.filter((t) => !t.featured);
+  const mobileTestimonials = testimonials.filter(
+    (t) => t.featured || t.showOnMobile,
+  );
 
   return (
     <section id="about" className="bg-background">
@@ -143,7 +138,20 @@ export function TestimonialsSection() {
           launches, lower fees, and better guest relationships.
         </p>
 
-        <div className="mx-auto mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-3">
+        <div className="mx-auto mt-8 grid max-w-sm grid-cols-3 gap-4 md:hidden">
+          {stats.map((stat) => (
+            <div key={stat.label} className="text-center">
+              <p className="text-2xl font-medium tabular-nums tracking-tight text-foreground">
+                {stat.value}
+              </p>
+              <p className="mt-1 text-xs leading-snug text-muted-foreground">
+                {stat.shortLabel}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mx-auto mt-10 hidden max-w-3xl flex-wrap items-center justify-center gap-3 md:flex">
           {stats.map((stat) => (
             <div
               key={stat.label}
@@ -157,7 +165,15 @@ export function TestimonialsSection() {
       </div>
 
       <div className="mx-auto max-w-7xl px-6 pb-12 md:px-12 lg:px-20">
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6">
+        {/* Mobile: top 2 reviews only */}
+        <div className="grid grid-cols-1 gap-4 md:hidden">
+          {mobileTestimonials.map((item) => (
+            <TestimonialCard key={item.name} item={item} />
+          ))}
+        </div>
+
+        {/* Tablet and up: full review grid */}
+        <div className="hidden md:grid md:grid-cols-1 md:gap-4 lg:grid-cols-3 lg:gap-6">
           <TestimonialCard
             item={featured}
             className="lg:col-span-2 lg:row-span-1"
@@ -166,65 +182,10 @@ export function TestimonialsSection() {
             <TestimonialCard key={item.name} item={item} />
           ))}
         </div>
-        <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:mt-6 lg:grid-cols-3 lg:gap-6">
+        <div className="mt-4 hidden gap-4 md:grid md:grid-cols-2 lg:mt-6 lg:grid-cols-3 lg:gap-6">
           {rest.slice(1).map((item) => (
             <TestimonialCard key={item.name} item={item} />
           ))}
-        </div>
-      </div>
-
-      <div className="border-t border-border px-6 py-16 md:px-12 md:py-20 lg:px-20">
-        <div className="mx-auto max-w-6xl">
-          <p className="text-center text-xs uppercase tracking-widest text-muted-foreground">
-            As featured in
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-            {press.map((name) => (
-              <span
-                key={name}
-                className="text-sm font-medium tracking-tight text-muted-foreground transition-colors hover:text-foreground md:text-base"
-              >
-                {name}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="border-t border-border px-6 pb-12 pt-12 md:px-12 lg:px-20 lg:pb-16">
-        <div className="mx-auto flex max-w-6xl flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
-          <div className="max-w-xl text-center sm:text-left">
-            <p className="font-display text-xl leading-[1.2] tracking-tight text-foreground sm:text-2xl md:text-[1.65rem]">
-              Ready to launch
-            </p>
-            <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Create your official direct-booking vacation rental website,
-              reduce platform dependence, and keep more booking revenue.
-            </p>
-          </div>
-          <div className="flex flex-col items-stretch gap-3 sm:shrink-0 sm:flex-row sm:items-center">
-            <Button
-              className="group h-12 shrink-0 rounded-full border-0 bg-[var(--oh-gold)] px-7 text-[15px] font-semibold tracking-tight text-[var(--oh-navy)] shadow-[0_2px_14px_rgba(197,160,89,0.4)] transition-all hover:-translate-y-0.5 hover:bg-[var(--oh-gold-hover)] hover:shadow-[0_6px_24px_rgba(197,160,89,0.5)] md:h-14 md:px-9 md:text-base"
-              size="lg"
-              asChild
-            >
-              <Link href="#pricing">
-                Start Free Trial
-                <ArrowRight
-                  className="size-4 transition-transform group-hover:translate-x-0.5"
-                  aria-hidden
-                />
-              </Link>
-            </Button>
-            <Button
-              variant="outline"
-              className="h-12 shrink-0 rounded-full border-border px-7 text-[15px] font-medium tracking-tight transition-all hover:bg-muted/50 md:h-14 md:px-9 md:text-base"
-              size="lg"
-              asChild
-            >
-              <Link href="/dashboard/add">Create Your Website</Link>
-            </Button>
-          </div>
         </div>
       </div>
     </section>

@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link2, Sparkles } from "lucide-react";
 import { ListingUrlInput } from "@/components/listing-url-input";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const sideImages = [
   {
@@ -37,10 +37,16 @@ const sideImages = [
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const isMobile = useIsMobile();
   const [scrollProgress, setScrollProgress] = useState(0);
   const [listingMode, setListingMode] = useState<"paste" | "fresh">("paste");
 
   useEffect(() => {
+    if (isMobile) {
+      setScrollProgress(0);
+      return;
+    }
+
     const handleScroll = () => {
       if (!sectionRef.current) return;
 
@@ -58,34 +64,39 @@ export function HeroSection() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [isMobile]);
 
-  const overlayOpacity = Math.max(0, 1 - scrollProgress / 0.2);
+  const overlayOpacity = isMobile
+    ? 1
+    : Math.max(0, 1 - scrollProgress / 0.2);
   const imageProgress = Math.max(0, Math.min(1, (scrollProgress - 0.2) / 0.8));
-  const centerWidth = 100 - imageProgress * 58;
-  const centerHeight = 100 - imageProgress * 30;
-  const sideWidth = imageProgress * 22;
-  const sideOpacity = imageProgress;
-  const sideTranslateLeft = -100 + imageProgress * 100;
-  const sideTranslateRight = 100 - imageProgress * 100;
-  const borderRadius = imageProgress * 24;
-  const gap = imageProgress * 16;
-  const sideTranslateY = -(imageProgress * 15);
+  const layoutProgress = isMobile ? 0 : imageProgress;
+  const centerWidth = 100 - layoutProgress * 58;
+  const centerHeight = 100 - layoutProgress * 30;
+  const sideWidth = layoutProgress * 22;
+  const sideOpacity = layoutProgress;
+  const sideTranslateLeft = -100 + layoutProgress * 100;
+  const sideTranslateRight = 100 - layoutProgress * 100;
+  const borderRadius = layoutProgress * 24;
+  const gap = layoutProgress * 16;
+  const sideTranslateY = -(layoutProgress * 15);
 
   return (
     <section id="create" ref={sectionRef} className="relative bg-background">
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="relative h-screen overflow-hidden md:sticky md:top-0">
         <div className="flex h-full w-full items-center justify-center">
           <div
             className="relative flex h-full w-full items-stretch justify-center"
             style={{
               gap: `${gap}px`,
-              padding: `${imageProgress * 16}px`,
-              paddingBottom: `${60 + imageProgress * 40}px`,
+              paddingTop: isMobile ? 0 : `${layoutProgress * 16}px`,
+              paddingRight: isMobile ? 0 : `${layoutProgress * 16}px`,
+              paddingLeft: isMobile ? 0 : `${layoutProgress * 16}px`,
+              paddingBottom: isMobile ? "60px" : `${60 + layoutProgress * 40}px`,
             }}
           >
             <div
-              className="flex flex-col will-change-transform"
+              className="hidden flex-col will-change-transform md:flex"
               style={{
                 width: `${sideWidth}%`,
                 gap: `${gap}px`,
@@ -116,12 +127,20 @@ export function HeroSection() {
 
             <div
               className="relative overflow-hidden will-change-transform"
-              style={{
-                width: `${centerWidth}%`,
-                height: `${centerHeight}%`,
-                flex: "0 0 auto",
-                borderRadius: `${borderRadius}px`,
-              }}
+              style={
+                isMobile
+                  ? {
+                      width: "100%",
+                      height: "100%",
+                      flex: "0 0 auto",
+                    }
+                  : {
+                      width: `${centerWidth}%`,
+                      height: `${centerHeight}%`,
+                      flex: "0 0 auto",
+                      borderRadius: `${borderRadius}px`,
+                    }
+              }
             >
               <Image
                 src="/images/hero-3.webp"
@@ -138,7 +157,7 @@ export function HeroSection() {
             </div>
 
             <div
-              className="flex flex-col will-change-transform"
+              className="hidden flex-col will-change-transform md:flex"
               style={{
                 width: `${sideWidth}%`,
                 gap: `${gap}px`,
@@ -257,9 +276,9 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="h-[180vh]" />
+      <div className="hidden h-[180vh] md:block" />
 
-      <div className="px-6 pt-24 pb-20 md:px-12 md:pt-32 md:pb-28 lg:px-20 lg:pt-40">
+      <div className="hidden px-6 pt-24 pb-20 md:block md:px-12 md:pt-32 md:pb-28 lg:px-20 lg:pt-40">
         <p className="mx-auto max-w-3xl text-center text-xl leading-relaxed text-muted-foreground md:text-2xl lg:text-[1.75rem] lg:leading-snug">
           Create your official property vacation rental website, collect direct
           inquiries, offer direct payment options, and reduce dependence on

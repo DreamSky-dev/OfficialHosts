@@ -179,7 +179,7 @@ export function TechnologySection() {
     <section
       id="how-it-works"
       ref={sectionRef}
-      className="relative bg-background"
+      className="relative hidden bg-background md:block"
     >
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="flex h-full w-full items-center justify-center">
