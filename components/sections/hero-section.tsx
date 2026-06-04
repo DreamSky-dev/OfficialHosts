@@ -193,7 +193,7 @@ export function HeroSection() {
           className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center px-6"
           style={{ opacity: overlayOpacity }}
         >
-          <div className="pointer-events-auto flex w-full max-w-2xl flex-col items-center pt-24 text-center md:pt-28">
+          <div className="pointer-events-auto flex w-full max-w-2xl flex-col items-center pt-12 text-center md:pt-28">
             <h1 className="max-w-2xl text-4xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-[3.75rem]">
               Keep your guests. Skip the commission.
             </h1>
@@ -270,7 +270,7 @@ export function HeroSection() {
                 size="lg"
                 className="mt-6 h-12 rounded-full bg-white px-8 text-base font-medium text-foreground hover:bg-white/90 md:h-14 md:px-10"
               >
-                Get Start Fresh Now
+                Start Fresh Now
               </Button>
             )}
           </div>
