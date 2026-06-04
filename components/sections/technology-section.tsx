@@ -352,16 +352,26 @@ function WorkflowStepCard({
   );
 }
 
-export function TechnologySection() {
+type TechnologySectionProps = {
+  embedded?: boolean;
+};
+
+export function TechnologySection({ embedded = false }: TechnologySectionProps) {
   const [activeStep, setActiveStep] = useState(0);
 
   return (
     <section
-      id="how-it-works"
       className="relative bg-background"
     >
-      <div className="relative overflow-hidden border-t border-border px-6 pt-20 pb-8 md:px-12 md:pt-28 md:pb-10 lg:px-20 lg:pt-36 lg:pb-12">
+      <div
+        className={
+          embedded
+            ? "relative overflow-hidden pb-0"
+            : "relative overflow-hidden border-t border-border px-6 pt-20 pb-8 md:px-12 md:pt-28 md:pb-10 lg:px-20 lg:pt-36 lg:pb-12"
+        }
+      >
         <div className="relative z-10 mx-auto max-w-6xl">
+          {!embedded && (
           <div className="max-w-3xl">
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
               How it works
@@ -374,10 +384,15 @@ export function TechnologySection() {
               brand, and start receiving direct bookings.
             </p>
           </div>
+          )}
 
           {/* Desktop: connected horizontal timeline */}
           <div
-            className="mt-10 hidden items-stretch lg:flex"
+            className={
+              embedded
+                ? "hidden items-stretch lg:flex"
+                : "mt-10 hidden items-stretch lg:flex"
+            }
             onMouseLeave={() => setActiveStep(0)}
           >
             {steps.map((item, index) => (
@@ -396,7 +411,11 @@ export function TechnologySection() {
 
           {/* Mobile / tablet: vertical timeline */}
           <div
-            className="mt-10 space-y-0 lg:hidden"
+            className={
+              embedded
+                ? "space-y-0 lg:hidden"
+                : "mt-10 space-y-0 lg:hidden"
+            }
             onMouseLeave={() => setActiveStep(0)}
           >
             {steps.map((item, index) => (
@@ -441,6 +460,7 @@ export function TechnologySection() {
             ))}
           </div>
 
+          {!embedded && (
           <div className="mt-12 flex flex-col gap-8 border-t border-border pt-12 sm:flex-row sm:items-center sm:justify-between lg:mt-16">
             <div className="max-w-xl text-center sm:text-left">
               <p className="font-display text-xl leading-[1.2] tracking-tight text-foreground sm:text-2xl md:text-[1.65rem]">
@@ -476,6 +496,7 @@ export function TechnologySection() {
               </Button>
             </div>
           </div>
+          )}
         </div>
       </div>
     </section>

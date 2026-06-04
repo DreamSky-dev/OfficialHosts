@@ -245,11 +245,16 @@ function PlanCard({
   );
 }
 
-export function CollectionSection() {
+type CollectionSectionProps = {
+  embedded?: boolean;
+};
+
+export function CollectionSection({ embedded = false }: CollectionSectionProps) {
   const [billing, setBilling] = useState<Billing>("monthly");
 
   return (
-    <section id="pricing" className="bg-background">
+    <section className="bg-background">
+      {!embedded && (
       <div className="px-6 pt-12 pb-20 text-center md:px-12 md:pt-16 md:pb-28 lg:px-20 lg:pt-20 lg:pb-32">
         <p className="text-xs uppercase tracking-widest text-muted-foreground">
           Pricing
@@ -310,8 +315,62 @@ export function CollectionSection() {
           </p>
         </div>
       </div>
+      )}
 
-      <div className="mx-auto max-w-6xl px-6 pb-16 md:px-12 lg:px-20">
+      {embedded && (
+        <div className="mb-6 flex flex-col items-center gap-3">
+          <div
+            className="inline-flex items-center rounded-full border border-border bg-muted/40 p-1"
+            role="group"
+            aria-label="Billing period"
+          >
+            <button
+              type="button"
+              onClick={() => setBilling("monthly")}
+              aria-pressed={billing === "monthly"}
+              className={cn(
+                "rounded-full px-5 py-2 text-sm font-medium transition-all",
+                billing === "monthly"
+                  ? "bg-foreground text-background shadow-sm"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              Monthly
+            </button>
+            <button
+              type="button"
+              onClick={() => setBilling("yearly")}
+              aria-pressed={billing === "yearly"}
+              className={cn(
+                "flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-all",
+                billing === "yearly"
+                  ? "bg-foreground text-background shadow-sm"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              Yearly
+              <span
+                className={cn(
+                  "rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide",
+                  billing === "yearly"
+                    ? "bg-background/20 text-background"
+                    : "bg-foreground/10 text-foreground",
+                )}
+              >
+                Save 17%
+              </span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div
+        className={
+          embedded
+            ? "mx-auto max-w-6xl"
+            : "mx-auto max-w-6xl px-6 pb-16 md:px-12 lg:px-20"
+        }
+      >
         <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-3 md:gap-5 lg:gap-6">
           {plans.map((plan) => (
             <PlanCard key={plan.name} plan={plan} billing={billing} />
@@ -319,6 +378,7 @@ export function CollectionSection() {
         </div>
       </div>
 
+      {!embedded && (
       <div className="border-t border-border px-6 py-12 md:px-12 lg:px-20">
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
           <p className="text-sm font-medium text-foreground">
@@ -340,6 +400,7 @@ export function CollectionSection() {
           </div>
         </div>
       </div>
+      )}
     </section>
   );
 }

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
+import { SectionCta } from "@/components/sections/section-cta";
 
 const faqItems = [
   {
@@ -61,21 +62,6 @@ const faqItems = [
     answer:
       "A short code like OH-7K2M9 that opens your private direct-booking site, ideal for repeat guests, QR codes, emails, and business cards.",
   },
-  {
-    question: "Can I turn my vacation rental website on or off?",
-    answer:
-      "Yes. Toggle each listing's visibility from your dashboard in seconds.",
-  },
-  {
-    question: "Can I add rental agreements later?",
-    answer:
-      "Yes. You can add agreements and policies as your direct-booking workflow matures.",
-  },
-  {
-    question: "Can I add video to my property vacation rental website?",
-    answer:
-      "Yes. Enrich your property pages with video and gallery content as you customize your site.",
-  },
 ];
 
 const faqHighlights = [
@@ -102,7 +88,15 @@ function formatCurrency(value: number) {
   });
 }
 
-export function EditorialSection() {
+type EditorialSectionProps = {
+  embedded?: boolean;
+  part?: "full" | "savings" | "faq";
+};
+
+export function EditorialSection({
+  embedded = false,
+  part = "full",
+}: EditorialSectionProps) {
   const [nightlyRate, setNightlyRate] = useState(250);
   const [nightsPerMonth, setNightsPerMonth] = useState(12);
   const [feeIndex, setFeeIndex] = useState(() => FEE_STEPS.indexOf(15));
@@ -129,29 +123,44 @@ export function EditorialSection() {
     };
   }, [nightlyRate, nightsPerMonth, platformFeePercent]);
 
+  const showSavings = part === "full" || part === "savings";
+  const showFaq = part === "full" || part === "faq";
+
   return (
     <section className="bg-background">
-      {/* Savings calculator */}
+      {showSavings && (
       <div
-        id="savings"
-        className="border-t border-border px-4 py-16 sm:px-6 sm:py-20 md:px-12 md:py-28 lg:px-20 lg:py-36"
+        id={part === "full" ? "savings" : undefined}
+        className={
+          embedded
+            ? "pb-0"
+            : "border-t border-border px-4 py-16 sm:px-6 sm:py-20 md:px-12 md:py-28 lg:px-20 lg:py-36"
+        }
       >
         <div className="mx-auto max-w-6xl">
-          <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground">
-              Savings calculator
-            </p>
-            <h2 className="mt-4 text-3xl font-medium tracking-tight text-foreground md:text-4xl lg:text-[2.75rem] lg:leading-tight">
-              See what platform fees cost you
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
-              Compare marketplace take rates with direct bookings on your
-              official site. OfficialHosts charges $0 in guest booking
-              commissions.
-            </p>
-          </div>
+          {!embedded && (
+            <div className="max-w-2xl">
+              <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                Savings calculator
+              </p>
+              <h2 className="mt-4 text-3xl font-medium tracking-tight text-foreground md:text-4xl lg:text-[2.75rem] lg:leading-tight">
+                See what platform fees cost you
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+                Compare marketplace take rates with direct bookings on your
+                official site. OfficialHosts charges $0 in guest booking
+                commissions.
+              </p>
+            </div>
+          )}
 
-          <div className="mt-10 overflow-hidden rounded-2xl border border-border sm:mt-12 lg:mt-16">
+          <div
+            className={
+              embedded
+                ? "overflow-hidden rounded-2xl border border-border"
+                : "mt-10 overflow-hidden rounded-2xl border border-border sm:mt-12 lg:mt-16"
+            }
+          >
             <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
               {/* Results — shown first on mobile so the comparison is visible without scrolling */}
               <div className="order-1 flex flex-col bg-muted/20 lg:order-2">
@@ -358,8 +367,9 @@ export function EditorialSection() {
           </div>
         </div>
       </div>
+      )}
 
-      {/* Stats band — desktop/tablet only */}
+      {part === "full" && (
       <div className="hidden divide-y divide-border border-t border-border md:grid md:grid-cols-4 md:divide-y-0">
         {stats.map((stat, index) => (
           <div
@@ -378,14 +388,20 @@ export function EditorialSection() {
           </div>
         ))}
       </div>
+      )}
 
-      {/* FAQ */}
+      {showFaq && (
       <div
-        id="faq"
-        className="border-t border-border px-6 py-20 md:px-12 md:py-28 lg:px-20 lg:py-36"
+        id={part === "full" ? "faq" : undefined}
+        className={
+          embedded
+            ? "pb-0"
+            : "border-t border-border px-6 py-20 md:px-12 md:py-28 lg:px-20 lg:py-36"
+        }
       >
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-16 lg:items-start">
+            {!embedded && (
             <div className="lg:sticky lg:top-28">
               <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
                 FAQ
@@ -430,11 +446,32 @@ export function EditorialSection() {
                 </Button>
               </div>
             </div>
+            )}
+
+            {embedded && (
+              <ul className="space-y-3 rounded-2xl border border-border bg-muted/20 p-5 lg:col-span-2">
+                {faqHighlights.map((highlight) => (
+                  <li
+                    key={highlight}
+                    className="flex gap-3 text-sm leading-relaxed text-muted-foreground"
+                  >
+                    <Check
+                      className="mt-0.5 size-4 shrink-0 text-foreground"
+                      aria-hidden
+                    />
+                    <span>{highlight}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
 
             <Accordion
               type="single"
               collapsible
-              className="flex flex-col gap-3"
+              className={cn(
+                "flex flex-col gap-3",
+                embedded && "lg:col-span-2",
+              )}
             >
               {faqItems.map((item, index) => (
                 <AccordionItem
@@ -475,6 +512,11 @@ export function EditorialSection() {
                   <AccordionContent className="text-[15px] leading-relaxed text-muted-foreground">
                     <div className="border-t border-border pt-4 pb-5 md:pb-6">
                       {item.answer}
+                      <SectionCta
+                        variant="compact"
+                        label="Start building your site"
+                        href="#create"
+                      />
                     </div>
                   </AccordionContent>
                 </AccordionItem>
@@ -482,6 +524,7 @@ export function EditorialSection() {
             </Accordion>
           </div>
 
+          {!embedded && (
           <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:hidden">
             <Button size="lg" className="h-12 rounded-full" asChild>
               <Link href="#create">
@@ -498,63 +541,10 @@ export function EditorialSection() {
               <Link href="#pricing">Compare plans</Link>
             </Button>
           </div>
-
-          {/* CTA */}
-          <div className="mt-20 overflow-hidden rounded-2xl border border-border bg-foreground md:mt-28">
-            <div className="grain-overlay relative grid gap-10 px-8 py-14 text-background md:px-12 md:py-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-end lg:gap-12 lg:py-20">
-              <div className="text-left">
-                <p className="text-xs font-medium uppercase tracking-widest text-background/60">
-                  Your brand, your guests
-                </p>
-                <h3 className="mt-4 max-w-xl text-2xl font-medium tracking-tight md:text-3xl lg:text-[2.125rem] lg:leading-tight">
-                  Don&apos;t build Airbnb&apos;s brand. Build your own.
-                </h3>
-                <p className="mt-4 max-w-lg text-base leading-relaxed text-background/75">
-                  Launch your official property vacation rental website, welcome
-                  direct inquiries, and keep more of every booking you earn.
-                </p>
-                <p className="mt-6 text-sm text-background/55">
-                  Airbnb and Vrbo help you find guests. OfficialHosts helps you
-                  keep them.
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-4 lg:items-stretch">
-                <Button
-                  size="lg"
-                  variant="secondary"
-                  className="h-12 w-full rounded-full px-8"
-                  asChild
-                >
-                  <Link href="#create">
-                    Start building your official site
-                    <ArrowRight className="size-4" aria-hidden />
-                  </Link>
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="h-12 w-full rounded-full border-background/25 bg-transparent text-background hover:bg-background/10"
-                  asChild
-                >
-                  <Link href="#pricing">Compare plans</Link>
-                </Button>
-                <ul className="mt-2 grid gap-2 border-t border-background/15 pt-6 text-sm text-background/65 sm:grid-cols-2 lg:grid-cols-1">
-                  {faqHighlights.map((highlight) => (
-                    <li key={highlight} className="flex gap-2">
-                      <Check
-                        className="size-4 shrink-0 text-background/80"
-                        aria-hidden
-                      />
-                      <span>{highlight}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
+      )}
     </section>
   );
 }

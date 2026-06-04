@@ -1,6 +1,9 @@
 "use client";
 
+import { useState } from "react";
+import { ArrowRight } from "lucide-react";
 import { FadeImage } from "@/components/fade-image";
+import { Button } from "@/components/ui/button";
 
 const features = [
   {
@@ -127,21 +130,53 @@ function MobileFeatureCard({
   );
 }
 
-function MobileFeaturesList() {
+function MobileFeaturesList({ embedded = false }: { embedded?: boolean }) {
+  const [showAll, setShowAll] = useState(!embedded);
+  const visibleFeatures =
+    embedded && !showAll ? features.slice(0, 3) : features;
+  const hiddenCount = features.length - 3;
+
   return (
-    <ul className="flex flex-col gap-4 px-6 pb-12 md:hidden">
-      {features.map((feature, index) => (
-        <li key={feature.title}>
-          <MobileFeatureCard feature={feature} index={index} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul
+        className={
+          embedded
+            ? "flex flex-col gap-4 md:hidden"
+            : "flex flex-col gap-4 px-6 pb-12 md:hidden"
+        }
+      >
+        {visibleFeatures.map((feature, index) => (
+          <li key={feature.title}>
+            <MobileFeatureCard feature={feature} index={index} />
+          </li>
+        ))}
+      </ul>
+
+      {embedded && !showAll && hiddenCount > 0 && (
+        <Button
+          type="button"
+          variant="outline"
+          className="mt-2 h-11 w-full rounded-full border-border text-sm font-medium"
+          onClick={() => setShowAll(true)}
+        >
+          See all {features.length} features
+          <ArrowRight className="size-4" aria-hidden />
+        </Button>
+      )}
+    </>
   );
 }
 
-export function FeaturedProductsSection() {
+type FeaturedProductsSectionProps = {
+  embedded?: boolean;
+};
+
+export function FeaturedProductsSection({
+  embedded = false,
+}: FeaturedProductsSectionProps) {
   return (
-    <section id="features" className="bg-background">
+    <section className="bg-background">
+      {!embedded && (
       <div className="px-6 pt-8 pb-10 text-center md:px-12 md:pt-10 md:pb-28 lg:px-20 lg:pt-12 lg:pb-20">
         <p className="text-xs uppercase tracking-widest text-muted-foreground">
           Platform Features
@@ -155,8 +190,9 @@ export function FeaturedProductsSection() {
           premium and get paid on your terms.
         </p>
       </div>
+      )}
 
-      <MobileFeaturesList />
+      <MobileFeaturesList embedded={embedded} />
 
       <div className="hidden gap-4 px-6 pb-12 md:grid md:grid-cols-3 md:px-12 lg:px-20">
         {features.map((feature) => (

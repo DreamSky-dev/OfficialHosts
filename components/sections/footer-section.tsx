@@ -43,13 +43,13 @@ export function FooterSection() {
               />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Your official property vacation rental website builder — not
+              Your official property vacation rental website builder not
               another marketplace. No commission. No middleman. Your guests,
               your brand.
             </p>
           </div>
 
-          <div>
+          <div className="col-start-1 row-start-2 md:col-start-auto md:row-start-auto">
             <h4 className="mb-4 text-sm font-medium text-foreground">
               Product
             </h4>
@@ -67,40 +67,42 @@ export function FooterSection() {
             </ul>
           </div>
 
-          <div>
-            <h4 className="mb-4 text-sm font-medium text-foreground">
-              Platform
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.platform.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <div className="col-start-2 row-start-2 flex flex-col gap-12 md:contents">
+            <div>
+              <h4 className="mb-4 text-sm font-medium text-foreground">
+                Platform
+              </h4>
+              <ul className="space-y-3">
+                {footerLinks.platform.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <div>
-            <h4 className="mb-4 text-sm font-medium text-foreground">
-              Company
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div>
+              <h4 className="mb-4 text-sm font-medium text-foreground">
+                Company
+              </h4>
+              <ul className="space-y-3">
+                {footerLinks.company.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

@@ -26,7 +26,6 @@ const testimonials = [
     property: "Downtown Loft · Austin, TX",
     badge: "Direct Bookings",
     featured: false,
-    showOnMobile: true,
   },
   {
     quote:
@@ -63,7 +62,7 @@ function StarRating() {
       {Array.from({ length: 5 }).map((_, i) => (
         <Star
           key={i}
-          className="size-3.5 fill-foreground text-foreground"
+          className="size-3 fill-foreground text-foreground md:size-3.5"
           aria-hidden
         />
       ))}
@@ -80,29 +79,31 @@ function TestimonialCard({
 }) {
   return (
     <article
-      className={`group flex flex-col rounded-2xl border p-6 transition-colors md:p-8 ${
+      className={`group flex flex-col rounded-xl border p-4 transition-colors md:rounded-2xl md:p-8 ${
         item.featured
           ? "border-foreground/20 bg-foreground/5 shadow-sm"
           : "border-border hover:border-foreground/15 hover:bg-muted/30"
       } ${className}`}
     >
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex items-start justify-between gap-3 md:gap-4">
         <Quote
-          className="size-8 shrink-0 text-foreground/15 transition-colors group-hover:text-foreground/25"
+          className="size-6 shrink-0 text-foreground/15 transition-colors group-hover:text-foreground/25 md:size-8"
           aria-hidden
         />
         <StarRating />
       </div>
-      <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-foreground md:text-base md:leading-relaxed">
+      <blockquote className="mt-3 flex-1 text-sm leading-snug text-foreground md:mt-4 md:text-base md:leading-relaxed">
         &ldquo;{item.quote}&rdquo;
       </blockquote>
-      <footer className="mt-8 flex items-center gap-4 border-t border-border pt-6">
-        <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-foreground text-sm font-medium text-background">
+      <footer className="mt-4 flex items-center gap-3 border-t border-border pt-4 md:mt-8 md:gap-4 md:pt-6">
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background md:size-11 md:text-sm">
           {item.initials}
         </div>
         <div className="min-w-0 flex-1">
-          <p className="font-medium text-foreground">{item.name}</p>
-          <p className="truncate text-sm text-muted-foreground">
+          <p className="text-sm font-medium text-foreground md:text-base">
+            {item.name}
+          </p>
+          <p className="truncate text-xs text-muted-foreground md:text-sm">
             {item.property}
           </p>
         </div>
@@ -117,15 +118,20 @@ function TestimonialCard({
   );
 }
 
-export function TestimonialsSection() {
+type TestimonialsSectionProps = {
+  embedded?: boolean;
+};
+
+export function TestimonialsSection({
+  embedded = false,
+}: TestimonialsSectionProps) {
   const featured = testimonials.find((t) => t.featured)!;
   const rest = testimonials.filter((t) => !t.featured);
-  const mobileTestimonials = testimonials.filter(
-    (t) => t.featured || t.showOnMobile,
-  );
+  const mobileTestimonials = testimonials.slice(0, 3);
 
   return (
-    <section id="about" className="bg-background">
+    <section className="bg-background">
+      {!embedded && (
       <div className="px-6 pt-12 pb-20 text-center md:px-12 md:pt-16 md:pb-28 lg:px-20 lg:pt-20 lg:pb-32">
         <p className="text-xs uppercase tracking-widest text-muted-foreground">
           Trusted by hosts
@@ -163,10 +169,32 @@ export function TestimonialsSection() {
           ))}
         </div>
       </div>
+      )}
 
-      <div className="mx-auto max-w-7xl px-6 pb-12 md:px-12 lg:px-20">
-        {/* Mobile: top 2 reviews only */}
-        <div className="grid grid-cols-1 gap-4 md:hidden">
+      <div
+        className={
+          embedded
+            ? "mx-auto max-w-7xl"
+            : "mx-auto max-w-7xl px-6 pb-12 md:px-12 lg:px-20"
+        }
+      >
+        {embedded && (
+          <div className="mb-4 grid max-w-sm grid-cols-3 gap-3">
+            {stats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <p className="text-xl font-medium tabular-nums tracking-tight text-foreground">
+                  {stat.value}
+                </p>
+                <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground">
+                  {stat.shortLabel}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Mobile: top 3 reviews */}
+        <div className="grid grid-cols-1 gap-3 md:hidden">
           {mobileTestimonials.map((item) => (
             <TestimonialCard key={item.name} item={item} />
           ))}
